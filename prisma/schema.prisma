@@ -18,5 +18,6 @@ model User{
   lastname String
   role String
   telegram String
+  phone String
 }
 
