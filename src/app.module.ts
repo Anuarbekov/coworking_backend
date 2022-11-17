@@ -4,9 +4,10 @@ import { AuthModule } from './auth/auth.module';
 import { CoworkingModule } from './coworking/coworking.module';
 import { RoomModule } from './room/room.module';
 import { EventModule } from './event/event.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
 
-  imports: [UserModule, AuthModule, CoworkingModule, RoomModule, EventModule]
+  imports: [UserModule, AuthModule, CoworkingModule, RoomModule, EventModule, PrismaModule]
 })
 export class AppModule {}
