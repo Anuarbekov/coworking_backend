@@ -32,7 +32,7 @@ model Coworking{
   id Int @id @default(autoincrement())
 
   address String
-  name String
+  name String @unique
 
   rooms Room[]
 

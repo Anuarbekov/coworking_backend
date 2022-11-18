@@ -4,10 +4,10 @@ import { CoworkingService } from './coworking.service';
 import { CoworkingDto } from './dto';
 
 @Controller('coworkings')
+
 export class CoworkingController {
 
     constructor(private coworkingService: CoworkingService){}
-
     @UseGuards(AuthGuard('jwt'))
     @Get()
     getAll(){
@@ -21,16 +21,18 @@ export class CoworkingController {
 
     @Post()
     create(@Body() dto : CoworkingDto){
-        return this.coworkingService.create(id);
+        return this.coworkingService.create(dto);
     }
 
     @Put(':id')
-    update(@Param('id') id: number){
-        return this.coworkingService.update(id);
+    update(@Param('id') id: number, @Body() dto : CoworkingDto){
+        return this.coworkingService.update(id, dto);
     }
+
+    @UseGuards(AuthGuard('jwt'))
 
     @Delete(':id')
     delete(@Param('id') id: number){
-        return this.coworkingService.delete(id)
+        return this.coworkingService.delete(id);
     }
 }
