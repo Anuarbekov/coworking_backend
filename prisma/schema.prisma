@@ -12,12 +12,80 @@ datasource db {
 
 model User{
   id Int @id @default(autoincrement())
+
   email String @unique
   password String
+
   firstname String
   lastname String
-  role String
   telegram String
   phone String
+
+  role String
+  
+  events Event[]
+
+  @@map("users")
 }
+
+model Coworking{
+  id Int @id @default(autoincrement())
+
+  address String
+  name String
+
+  rooms Room[]
+
+  @@map("coworkings")
+}
+
+model Room{
+  id Int @id @default(autoincrement())
+
+  title String 
+  description String
+
+  price Int
+  max_people_num Int
+
+  coworking Coworking @relation(fields: [coworkingId], references: [id])
+  coworkingId Int
+
+  photos RoomPhoto[]
+  events Event[]
+
+  @@map("rooms")
+}
+
+model RoomPhoto{
+  id Int @id
+  url String @unique
+
+  room Room @relation(fields: [roomId], references: [id])
+  roomId Int
+
+  @@map("room_photos")
+}
+
+model Event{
+  id Int @id
+  
+  title String
+  description String
+  
+  is_passed Boolean
+  is_approved Boolean
+
+  start_time DateTime
+  end_time DateTime
+
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+
+  room Room @relation(fields: [roomId], references: [id])
+  roomId Int
+
+  @@map("events")
+}
+
 
