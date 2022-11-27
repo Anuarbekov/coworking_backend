@@ -1,10 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { EventService } from 'src/event/event.service';
 import { UserDto } from './dto';
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
-    constructor(private userService: UserService){}
+    constructor(private userService: UserService, eventService: EventService){}
 
     @Get()
     getAll(){
@@ -30,4 +31,20 @@ export class UserController {
     delete(@Param('id') id: number){
         return this.userService.delete(id);
     }
+
+    @Get(':id/events')
+    getEvents(@Param('id') id: number){
+        return ;
+    }
+
+    @Post(':id/events')
+    createEvent(@Param('id') id: number){
+        return this.userService.;
+    }
+
+    @Delete(':id/events/:eventId')
+    deleteEvent(@Param('id') id: number){
+        return this.userService.;
+    }
+
 }
