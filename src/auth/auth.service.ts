@@ -1,38 +1,19 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { LoginDto, RegisterDto } from './dto';
-import * as argon from 'argon2'
+import { LoginDto } from './dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import * as argon from 'argon2'
+import { UserService } from 'src/user/user.service';
+import { UserDto } from 'src/user/dto';
+
 
 @Injectable()
 export class AuthService {
-    constructor(private prisma: PrismaService, private jwt: JwtService){}
-    
-    async register(dto: RegisterDto) {
-        const password = await argon.hash(dto.password);
-        try{
-            const user = await this.prisma.user.create({
-                data: {
-                    email: dto.email,
-                    password,
-                    firstname: dto.firstname,
-                    lastname: dto.lastname,
-                    phone: dto.phone,
-                    role: dto.role,
-                    telegram: dto.telegram
-                }
-            });
-            return "Successfully created user with email: " + user.email;
-        }
-        catch(error){
-            if(error instanceof PrismaClientKnownRequestError){
-                if(error.code === 'P2002')
-                    throw new ForbiddenException('Email already exists, take another one!');
-            }
-            throw error;
-        }
-        
+    constructor(private prisma: PrismaService, private jwt: JwtService, private userService: UserService){}
+
+    async register(dto: UserDto){
+        return this.userService.create(dto);
     }
 
     async login (dto: LoginDto) {
