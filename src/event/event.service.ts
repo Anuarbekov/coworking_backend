@@ -31,12 +31,14 @@ export class EventService {
         return event;
     }
 
-    async createEvent(user_id: number, dto: EventDto){
-        const event = await this.prisma.event.create({
+    async create(user_id: number, dto: EventDto){
+        const event = await this.prisma.user.create({
             data:{
+                events:{
+                    create:{
                 start_time: dto.start_time,
                 end_time: dto.end_time,
-    
+
                 user: {
                     connect: {
                         id: user_id
@@ -50,6 +52,22 @@ export class EventService {
                 description: dto.description,
                 is_approved: dto.is_approved,
                 is_passed : true
+                }
+                }
+            },
+            include: {
+                events: true,
+                rooms: true
+            }
+        })
+        return "Successfully created new event!";
+    }
+
+    async delete(user_Id: number, eventId: number){
+        const event = await this.prisma.event.delete({
+            where:{
+                id: eventId,
+                userId: user_Id
             }
         })
         return "Successfully created new event!";
