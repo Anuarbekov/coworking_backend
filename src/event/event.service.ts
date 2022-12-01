@@ -36,28 +36,18 @@ export class EventService {
             data:{
                 events:{
                     create:{
-                start_time: dto.start_time,
-                end_time: dto.end_time,
-
-                user: {
-                    connect: {
-                        id: user_id
+                        start_time: dto.start_time,
+                        end_time: dto.end_time,
+                        user: {
+                            connect: {
+                                id: user_id
+                            }
+                        }, 
+                        description: dto.description,
+                        is_approved: dto.is_approved,
+                        is_passed : true
                     }
-                }, 
-                room: {
-                    connect: {
-                        id: dto.roomId
-                    }
-                },
-                description: dto.description,
-                is_approved: dto.is_approved,
-                is_passed : true
                 }
-                }
-            },
-            include: {
-                events: true,
-                rooms: true
             }
         })
         return "Successfully created new event!";
