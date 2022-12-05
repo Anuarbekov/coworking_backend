@@ -1,7 +1,6 @@
 import { IsBoolean, IsDate, IsMilitaryTime, IsNotEmpty, IsNumber } from "class-validator"
 
 export class EventDto{
-    @IsNotEmpty()
     title: string
 
     description: string
@@ -21,11 +20,9 @@ export class EventDto{
     @IsDate()
     day: Date
 
-    @IsNotEmpty()
     @IsNumber()
     userId: number
 
-    @IsNotEmpty()
     @IsNumber()
     roomId: number
 
