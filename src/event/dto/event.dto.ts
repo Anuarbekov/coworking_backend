@@ -8,17 +8,14 @@ export class EventDto{
     @IsBoolean()
     is_approved: boolean
 
+    @IsBoolean()
+    is_passed: boolean
+
     @IsDate()
     start_time: Date
 
     @IsDate()
     end_time: Date
-
-    @IsNumber()
-    month: number
-
-    @IsDate()
-    day: Date
 
     @IsNumber()
     userId: number
