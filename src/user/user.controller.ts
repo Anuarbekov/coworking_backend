@@ -33,19 +33,25 @@ export class UserController {
         return this.userService.delete(id);
     }
 
-    @Get(':id/events')
+    //User-Events routes:
+    @Get(':userId/events')
     getEvents(@Param('id') id: number){
         return ;
     }
 
-    @Post(':id/events')
+    @Post(':userId/events')
     createEvent(@Param('id') id: number, @Body() dto: EventDto){
         return this.eventService.create(id, dto);
     }
 
-    @Delete(':id/events/:eventId')
-    deleteEvent(@Param('id') id: number, @Param('eventId') eventId: number){
-        return this.eventService.delete(id, eventId);
+    @Put(':userId/events/:eventId')
+    updateEvent(@Param('userId') userId: number, @Param('eventId') id: number,  @Body() dto: EventDto){
+        return this.eventService.update(userId, id, dto);
+    }
+
+    @Delete(':userId/events/:eventId')
+    deleteEvent(@Param('userId') userId: number, @Param('eventId') eventId: number){
+        return this.eventService.delete(userId, eventId);
     }
 
 }

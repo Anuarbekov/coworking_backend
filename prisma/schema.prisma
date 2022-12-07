@@ -32,7 +32,7 @@ model Coworking{
   id Int @id @default(autoincrement())
 
   address String
-  name String @unique
+  name String
 
   rooms Room[]
 
@@ -68,7 +68,7 @@ model RoomPhoto{
 }
 
 model Event{
-  id Int @id
+  id Int @id @default(autoincrement())
   
   title String
   description String
