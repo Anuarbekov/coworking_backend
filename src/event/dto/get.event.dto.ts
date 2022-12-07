@@ -18,4 +18,6 @@ export class GetEventDto{
 
     @IsNumber()
     roomId: number
+
+    isDataHidden?: boolean
 }

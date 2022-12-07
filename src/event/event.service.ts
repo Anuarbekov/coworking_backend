@@ -18,6 +18,7 @@ export class EventService {
 
     async getAll(dto: GetEventDto){
         return await this.prisma.event.findMany({
+
             where:{
                 start_time:{
                     lt: dto.start_time != null ? dto.start_time : undefined
