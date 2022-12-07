@@ -1,4 +1,4 @@
-import {IsBoolean, IsDate, IsNotEmpty } from "class-validator"
+import {IsBoolean, IsDate, IsNotEmpty, IsNumber } from "class-validator"
 
 export class GetEventDto{
 
@@ -15,4 +15,7 @@ export class GetEventDto{
     @IsNotEmpty()
     @IsDate()
     end_time: Date
+
+    @IsNumber()
+    roomId: number
 }

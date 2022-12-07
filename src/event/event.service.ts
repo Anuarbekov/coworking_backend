@@ -26,7 +26,9 @@ export class EventService {
                     lt: dto.end_time != null ? dto.end_time : undefined
                 },
                 is_approved: dto.is_approved != null ? dto.is_approved : undefined,
-                is_passed: dto.is_passed != null ? dto.is_passed : undefined
+                is_passed: dto.is_passed != null ? dto.is_passed : undefined,
+                roomId: dto.roomId != null ? dto.roomId : undefined
+
             }
         });
     }
@@ -42,7 +44,8 @@ export class EventService {
                     lt: dto.end_time != null ? dto.end_time : undefined
                 },
                 is_approved: dto.is_approved != null ? dto.is_approved : undefined,
-                is_passed: dto.is_passed != null ? dto.is_passed : undefined
+                is_passed: dto.is_passed != null ? dto.is_passed : undefined,
+                roomId: dto.roomId != null ? dto.roomId : undefined
             }
         })
         if(!event) throw new NotFoundException("event with id: " +userid + " not found")
@@ -68,7 +71,7 @@ export class EventService {
         return "Successfully created new event!";
     }
 
-    async pass(id: number, passed: boolean){
+    async approve(id: number, passed: boolean): Promise<String>{
         await this.prisma.event.updateMany({
             data: {
                 is_approved: true,
@@ -78,6 +81,9 @@ export class EventService {
                 id: id
             }
         });
+        if(passed)
+            return "Event with id: " + id + "passed approval";
+        return "Event with id: " + id + "failed approval";
     }
 
     async update(userId: number, eventId: number, dto: EventDto){
