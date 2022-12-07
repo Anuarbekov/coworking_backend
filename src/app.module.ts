@@ -5,9 +5,11 @@ import { CoworkingModule } from './coworking/coworking.module';
 import { RoomModule } from './room/room.module';
 import { EventModule } from './event/event.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
 
-  imports: [UserModule, AuthModule, CoworkingModule, RoomModule, EventModule, PrismaModule]
+  imports: [UserModule, AuthModule, CoworkingModule, RoomModule, EventModule, PrismaModule,
+    ConfigModule.forRoot({envFilePath: '.env'})]
 })
 export class AppModule {}
