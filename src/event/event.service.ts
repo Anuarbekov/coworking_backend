@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { EventDto } from './dto';
+import { GetEventDto } from './dto/get.event.dto';
 
 
 @Injectable()
 export class EventService {
     constructor(private prisma: PrismaService){}
     
-    async getAll(){
+    async getAll(dto: GetEventDto){
         return await this.prisma.event.findMany({
             where:{
                 is_approved: true
