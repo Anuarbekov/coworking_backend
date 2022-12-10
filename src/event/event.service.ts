@@ -8,71 +8,47 @@ import { GetEventDto } from './dto/get.event.dto';
 export class EventService {
     constructor(private prisma: PrismaService){}
     
+    async get(id: number){
+        return await this.prisma.event.findMany({
+            where:{
+                id: id
+            }
+        });
+    }
+
     async getAll(dto: GetEventDto){
         return await this.prisma.event.findMany({
             where:{
-                is_approved: true
-            }
-        });
-    }
-
-    async getAllApproved(start_time: Date, end_time: Date){
-        return await this.prisma.event.findMany({
-            where:{
-                is_approved: true,
                 start_time:{
-                    gte: start_time
+                    lt: dto.start_time != null ? dto.start_time : undefined
                 },
                 end_time:{
-                    lte: end_time
-                }
+                    lt: dto.end_time != null ? dto.end_time : undefined
+                },
+                is_approved: dto.is_approved != null ? dto.is_approved : undefined,
+                is_passed: dto.is_passed != null ? dto.is_passed : undefined
             }
         });
     }
 
-    async getApproved(id: number){
-        const event = await this.prisma.event.findFirst({
-            where:{
-                id: id,
-                is_approved: true
-            }
-        })
-        if(!event) throw new NotFoundException("event with id: " + id + " not found")
-        return event;
-    }
-
-    async getUserEvents(userid: number){
-        const event = await this.prisma.event.findMany({
-            where:{
-                userId: userid
-            }
-        })
-        if(!event) throw new NotFoundException("event with id: " +userid + " not found")
-        return event;
-    }
-
-    async getUserEventsApproved(userid: number){
+    async getUserEvents(userid: number, dto: GetEventDto){
         const event = await this.prisma.event.findMany({
             where:{
                 userId: userid,
-                is_approved: true
+                start_time:{
+                    lt: dto.start_time != null ? dto.start_time : undefined
+                },
+                end_time:{
+                    lt: dto.end_time != null ? dto.end_time : undefined
+                },
+                is_approved: dto.is_approved != null ? dto.is_approved : undefined,
+                is_passed: dto.is_passed != null ? dto.is_passed : undefined
             }
         })
         if(!event) throw new NotFoundException("event with id: " +userid + " not found")
         return event;
     }
-
-    async getUserEventsPassed(userid: number){
-        const event = await this.prisma.event.findMany({
-            where:{
-                userId: userid,
-                is_approved: true
-            }
-        })
-        if(!event) throw new NotFoundException("event with id: " +userid + " not found")
-        return event;
-    }
-
+    
     async create(userId: number, dto: EventDto){
         if(dto.roomId == null)
             return "Room was not chosen";

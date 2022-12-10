@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { EventDto } from './dto';
 import { GetEventDto } from './dto/get.event.dto';
 import { EventService } from './event.service';
@@ -12,9 +12,9 @@ export class EventController {
         return this.eventService.getAll(dto);
     }
 
-    // @Get(':id')
-    // get(@Param('id') id: number, ){
-    //     return this.eventService.get
-    // }
+    @Get(':id')
+    get(@Param('id') id: number){
+        return this.eventService.get(id);
+    }
 
 }
