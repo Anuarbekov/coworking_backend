@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from 'src/prisma/prisma.module';
-import { RolesGuard } from 'src/role/roles.guard';
+import { RolesGuard } from 'src/auth/role/roles.guard';
 import { CoworkingController } from './coworking.controller';
 import { CoworkingService } from './coworking.service';
 

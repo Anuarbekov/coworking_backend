@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/role/roles.decorator';
-import { RolesGuard } from 'src/role/roles.guard';
+import { Roles } from 'src/auth/role/roles.decorator';
 import { CoworkingService } from './coworking.service';
 import { CoworkingDto } from './dto';
 

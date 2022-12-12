@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { EventDto } from './dto';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/auth/role/roles.decorator';
 import { GetEventDto } from './dto/get.event.dto';
 import { EventService } from './event.service';
 
@@ -11,7 +12,7 @@ export class EventController {
     getAll(@Body() dto: GetEventDto){
         return this.eventService.getAll(dto);
     }
-
+    
     @Get(':id')
     get(@Param('id') id: number){
         return this.eventService.get(id);
