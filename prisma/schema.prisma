@@ -68,7 +68,7 @@ model RoomPhoto{
 }
 
 model Event{
-  id Int @id
+  id Int @id @default(autoincrement())
   
   title String
   description String

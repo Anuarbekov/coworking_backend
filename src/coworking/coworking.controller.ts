@@ -1,17 +1,42 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/auth/role/roles.decorator';
+import { CoworkingService } from './coworking.service';
+import { CoworkingDto } from './dto';
 
-@Controller('coworking')
+@Controller('coworkings')
+
 export class CoworkingController {
 
-    @UseGuards(AuthGuard('jwt'))
+    constructor(private coworkingService: CoworkingService){}
     @Get()
     getAll(){
-        return "OK";
+        return this.coworkingService.getAll();
     }
 
     @Get(':id')
     get(@Param('id') id: number){
-        
+        return this.coworkingService.get(id);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Roles('admin')
+    @Post()
+    create(@Body() dto : CoworkingDto){
+        return this.coworkingService.create(dto);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Roles('admin')
+    @Put(':id')
+    update(@Param('id') id: number, @Body() dto : CoworkingDto){
+        return this.coworkingService.update(id, dto);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Roles('admin')
+    @Delete(':id')
+    delete(@Param('id') id: number){
+        return this.coworkingService.delete(id);
     }
 }
