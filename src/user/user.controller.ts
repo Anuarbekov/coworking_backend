@@ -17,6 +17,11 @@ export class UserController {
         return this.userService.getAll();
     }
 
+    @Get()
+    getAllHidden(){
+        return this.userService.getAll();
+    }
+
     @Get(':id')
     get(@Param('id') id: number){
         return this.userService.get(id);
