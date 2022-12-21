@@ -1,26 +1,44 @@
-import { IsBoolean, IsDate, IsMilitaryTime, IsNotEmpty, IsNumber } from "class-validator"
+import { IsBoolean, IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger/dist';
+export class EventDto {
+  @ApiProperty({ example: 'Бизнес митинг', description: 'Тайтл ивента' })
+  @IsNotEmpty()
+  title: string;
 
-export class EventDto{
-    title: string
+  @ApiProperty({
+    example: 'Бизнес митинг с компанией Google',
+    description: 'Описание ивента',
+  })
+  @IsNotEmpty()
+  description: string;
 
-    description: string
-    
-    @IsBoolean()
-    is_approved: boolean
+  @ApiProperty({ example: 'true', description: 'is_approved' })
+  @IsBoolean()
+  is_approved: boolean;
 
-    @IsBoolean()
-    is_passed: boolean
+  @ApiProperty({ example: 'false', description: 'is_passed' })
+  @IsBoolean()
+  is_passed: boolean;
 
-    @IsDate()
-    start_time: Date
+  @ApiProperty({
+    example: 'Fri Mar 10 2006 09:00:00',
+    description: 'Время начала',
+  })
+  @IsDate()
+  start_time: Date;
 
-    @IsDate()
-    end_time: Date
+  @ApiProperty({
+    example: 'Fri Mar 10 2006 10:00:00',
+    description: 'Время окончания',
+  })
+  @IsDate()
+  end_time: Date;
 
-    @IsNumber()
-    userId: number
+  @ApiProperty({ example: '1', description: 'Айди юзера' })
+  @IsNumber()
+  userId: number;
 
-    @IsNumber()
-    roomId: number
-
+  @ApiProperty({ example: '2', description: 'Айди комнаты' })
+  @IsNumber()
+  roomId: number;
 }
