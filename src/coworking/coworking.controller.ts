@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UseGuards,
@@ -13,12 +14,21 @@ import { Roles } from 'src/auth/role/roles.decorator';
 import { CoworkingService } from './coworking.service';
 import { CoworkingDto } from './dto';
 
-import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger/dist';
+import {
+  ApiTags,
+  ApiResponse,
+  ApiOperation,
+  ApiBearerAuth,
+} from '@nestjs/swagger/dist';
 
 @ApiTags('Коворкинг')
 @Controller('coworkings')
 export class CoworkingController {
   constructor(private coworkingService: CoworkingService) {}
+
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Список всех коворкингов' })
   @ApiResponse({ status: 200, type: [CoworkingDto] })
   @Get()
@@ -26,13 +36,17 @@ export class CoworkingController {
     return this.coworkingService.getAll();
   }
 
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Коворкинг по id' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @Get(':id')
-  get(@Param('id') id: number) {
+  get(@Param('id', new ParseIntPipe()) id: number) {
     return this.coworkingService.get(id);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Создать коворкинг' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @UseGuards(RolesGuard)
@@ -42,21 +56,26 @@ export class CoworkingController {
     return this.coworkingService.create(dto);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Изменить коворкинг' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
   @Put(':id')
-  update(@Param('id') id: number, @Body() dto: CoworkingDto) {
+  update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: CoworkingDto,
+  ) {
     return this.coworkingService.update(id, dto);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Удалить коворкинг' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id', new ParseIntPipe()) id: number) {
     return this.coworkingService.delete(id);
   }
 }

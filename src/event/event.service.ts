@@ -15,20 +15,8 @@ export class EventService {
     });
   }
 
-  async getAll(dto: GetEventDto) {
-    return await this.prisma.event.findMany({
-      where: {
-        start_time: {
-          lt: dto.start_time != null ? dto.start_time : undefined,
-        },
-        end_time: {
-          lt: dto.end_time != null ? dto.end_time : undefined,
-        },
-        is_approved: dto.is_approved != null ? dto.is_approved : undefined,
-        is_passed: dto.is_passed != null ? dto.is_passed : undefined,
-        roomId: dto.roomId != null ? dto.roomId : undefined,
-      },
-    });
+  async getAll() {
+    return await this.prisma.event.findMany({});
   }
 
   async getUserEvents(userid: number, dto: GetEventDto) {

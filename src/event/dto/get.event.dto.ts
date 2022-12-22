@@ -10,18 +10,18 @@ export class GetEventDto {
   is_passed: boolean;
 
   @ApiProperty({
-    example: 'Fri Mar 10 2006 09:00:00',
+    example: '2022-12-19T10:30:00',
     description: 'Время начала',
   })
   @IsDate()
-  start_time: Date;
+  start_time: string;
 
   @ApiProperty({
-    example: 'Fri Mar 10 2006 10:00:00',
+    example: '2022-12-19T10:30:00',
     description: 'Время окончания',
   })
   @IsDate()
-  end_time: Date;
+  end_time: string;
 
   @ApiProperty({ example: '2', description: 'Айди комнаты' })
   @IsNumber()
