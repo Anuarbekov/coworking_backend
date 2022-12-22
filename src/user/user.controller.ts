@@ -15,7 +15,13 @@ import { EventService } from 'src/event/event.service';
 import { UserDto } from './dto';
 import { UserService } from './user.service';
 import { RolesGuard } from 'src/auth/role/roles.guard';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger/dist';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger/dist';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -25,8 +31,10 @@ export class UserController {
     private eventService: EventService,
   ) {}
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Список всех юзеров' })
   @ApiResponse({ status: 200, type: [UserDto] })
+  @ApiUnauthorizedResponse({ description: 'Пользователь не авторизован' })
   @Roles('USER', 'ADMIN')
   @UseGuards(RolesGuard)
   @Get()
@@ -34,13 +42,17 @@ export class UserController {
     return this.userService.getAll();
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user by id' })
   @ApiResponse({ status: 200, type: UserDto })
+  @Roles('USER', 'ADMIN')
+  @UseGuards(RolesGuard)
   @Get(':id')
   get(@Param('id', new ParseIntPipe()) id: number) {
     return this.userService.get(id);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Создание юзера' })
   @ApiResponse({ status: 200, type: UserDto })
   @Roles('ADMIN')
@@ -50,6 +62,7 @@ export class UserController {
     return this.userService.create(dto);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Изменения юзера' })
   @ApiResponse({ status: 200, type: UserDto })
   @UseGuards(RolesGuard)
@@ -59,6 +72,7 @@ export class UserController {
     return this.userService.update(id, dto);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Удаление юзера' })
   @ApiResponse({ status: 200, type: UserDto })
   @UseGuards(RolesGuard)
@@ -69,6 +83,8 @@ export class UserController {
   }
 
   //User-Events routes:
+
+  @ApiBearerAuth()
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'USER')
   @Get(':userId/events')
@@ -79,10 +95,14 @@ export class UserController {
   @ApiOperation({ summary: 'Создание ивента' })
   @ApiResponse({ status: 200, type: EventDto })
   @Post(':userId/events')
-  createEvent(@Param('id', new ParseIntPipe()) id: number, @Body() dto: EventDto) {
+  createEvent(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: EventDto,
+  ) {
     return this.eventService.create(id, dto);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Изменение ивента' })
   @ApiResponse({ status: 200, type: EventDto })
   @UseGuards(RolesGuard)
@@ -96,6 +116,7 @@ export class UserController {
     return this.eventService.update(userId, id, dto);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Удаление ивента' })
   @ApiResponse({ status: 200, type: EventDto })
   @UseGuards(RolesGuard)
@@ -108,12 +129,16 @@ export class UserController {
     return this.eventService.delete(userId, eventId);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Aprove ивента' })
   @ApiResponse({ status: 200, type: String })
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
   @Put('/events/:eventId/:passed')
-  approveEvent(@Param('eventId', new ParseIntPipe()) id: number, @Param('passed') passed: boolean) {
+  approveEvent(
+    @Param('eventId', new ParseIntPipe()) id: number,
+    @Param('passed') passed: boolean,
+  ) {
     return this.eventService.approve(id, passed);
   }
 }

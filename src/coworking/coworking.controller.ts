@@ -14,12 +14,18 @@ import { Roles } from 'src/auth/role/roles.decorator';
 import { CoworkingService } from './coworking.service';
 import { CoworkingDto } from './dto';
 
-import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger/dist';
+import {
+  ApiTags,
+  ApiResponse,
+  ApiOperation,
+  ApiBearerAuth,
+} from '@nestjs/swagger/dist';
 
 @ApiTags('Коворкинг')
 @Controller('coworkings')
 export class CoworkingController {
   constructor(private coworkingService: CoworkingService) {}
+  
   @ApiOperation({ summary: 'Список всех коворкингов' })
   @ApiResponse({ status: 200, type: [CoworkingDto] })
   @Get()
@@ -34,6 +40,7 @@ export class CoworkingController {
     return this.coworkingService.get(id);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Создать коворкинг' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @UseGuards(RolesGuard)
@@ -43,6 +50,7 @@ export class CoworkingController {
     return this.coworkingService.create(dto);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Изменить коворкинг' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @UseGuards(RolesGuard)
@@ -55,6 +63,7 @@ export class CoworkingController {
     return this.coworkingService.update(id, dto);
   }
 
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Удалить коворкинг' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @UseGuards(RolesGuard)

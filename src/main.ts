@@ -11,6 +11,12 @@ async function bootstrap() {
     .setTitle('Coworking Booking System')
     .setDescription('Coworking Booking System Backend')
     .setVersion('1.0.0')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'Bearer',
+      bearerFormat: 'JWT',
+      in: 'header',
+    })
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
