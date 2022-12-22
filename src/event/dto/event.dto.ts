@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsBoolean, IsString, IsNotEmpty, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger/dist';
 export class EventDto {
   @ApiProperty({ example: 'Бизнес митинг', description: 'Тайтл ивента' })
@@ -24,14 +24,14 @@ export class EventDto {
     example: '2022-12-19T10:30:00',
     description: 'Время начала',
   })
-  @IsDate()
+  @IsString()
   start_time: string;
 
   @ApiProperty({
     example: '2022-12-19T10:30:00',
     description: 'Время окончания',
   })
-  @IsDate()
+  @IsString()
   end_time: string;
 
   @ApiProperty({ example: '1', description: 'Айди юзера' })
