@@ -73,8 +73,8 @@ model Event{
   is_passed Boolean
   is_approved Boolean
 
-  start_time DateTime
-  end_time DateTime
+  start_time String
+  end_time String
 
   user User @relation(fields: [userId], references: [id])
   userId Int
