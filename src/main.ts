@@ -1,22 +1,29 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
-
+  app.enableCors();
+  const PORT = process.env.PORT || 5000;
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Notes API')
-    .setDescription('The notes API description')
-    .setVersion('1.0')
+    .setTitle('Coworking Booking System')
+    .setDescription('Coworking Booking System Backend')
+    .setVersion('1.0.0')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'Bearer',
+      bearerFormat: 'JWT',
+      in: 'header',
+    })
     .build();
-   
-  const document = SwaggerModule.createDocument(app, swaggerConfig)
-  SwaggerModule.setup('swagger', app, document)
 
-  await app.listen(process.env.PORT);
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('/api/docs', app, document);
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(PORT, () => {
+    console.log(`Server started on ${PORT}`);
+  });
 }
 bootstrap();

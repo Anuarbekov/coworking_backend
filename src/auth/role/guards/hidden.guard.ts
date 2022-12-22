@@ -41,7 +41,7 @@ export class HiddenGuard implements CanActivate {
   protected getToken(request: {
       headers: Record<string, string | string[]>;
   }): string {
-      const authorization = request.headers['access-token'];
+      const authorization = request.headers.authorization;
       if (!authorization || Array.isArray(authorization)) {
           return null;
       }

@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from 'src/prisma/prisma.module';
-import { RolesGuard } from 'src/auth/role/roles.guard';
 import { CoworkingController } from './coworking.controller';
 import { CoworkingService } from './coworking.service';
-import { HiddenGuard } from 'src/auth/role/guards/hidden.guard';
+import { forwardRef } from '@nestjs/common/utils';
+import { AuthModule } from 'src/auth/auth.module';
 import { JwtService } from '@nestjs/jwt';
-
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, forwardRef(() => AuthModule)],
   controllers: [CoworkingController],
   providers: [CoworkingService, JwtService]
 })
