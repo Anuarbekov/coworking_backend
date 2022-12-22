@@ -13,8 +13,8 @@ export class EventController {
   @ApiOperation({ summary: 'Список ивентов' })
   @ApiResponse({ status: 200, type: [EventDto] })
   @Get()
-  getAll(@Body() dto: GetEventDto) {
-    return this.eventService.getAll(dto);
+  getAll() {
+    return this.eventService.getAll();
   }
 
   @ApiOperation({ summary: 'Ивент по айди' })
