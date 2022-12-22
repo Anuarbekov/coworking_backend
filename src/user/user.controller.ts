@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Roles } from 'src/auth/role/roles.decorator';
+import { RolesGuard } from 'src/auth/role/roles.guard';
 import { EventDto } from 'src/event/dto';
 import { EventService } from 'src/event/event.service';
 import { UserDto } from './dto';

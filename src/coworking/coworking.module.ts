@@ -7,6 +7,6 @@ import { AuthModule } from 'src/auth/auth.module';
 @Module({
   imports: [PrismaModule, forwardRef(() => AuthModule)],
   controllers: [CoworkingController],
-  providers: [CoworkingService],
+  providers: [CoworkingService, JwtService]
 })
 export class CoworkingModule {}
