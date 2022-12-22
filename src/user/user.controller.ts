@@ -88,7 +88,7 @@ export class UserController {
   @Get('/:userId/events')
   @ApiOperation({ summary: 'Список ивентов' })
   @ApiResponse({ status: 200, type: [EventDto] })
-  getEvents(@Param('id') id: number) {
+  getEvents(@Param('userId') id: number) {
     return this.userService.getEvents(id);
   }
 
@@ -99,7 +99,7 @@ export class UserController {
   @ApiResponse({ status: 200, type: EventDto })
   @Post(':userId/events')
   createEvent(
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('userId', new ParseIntPipe()) id: number,
     @Body() dto: EventDto,
   ) {
     return this.eventService.create(id, dto);
