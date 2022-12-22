@@ -32,14 +32,13 @@ export class UserController {
   ) {}
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Список всех юзеров' })
-  @ApiResponse({ status: 200, type: [UserDto] })
-  @ApiUnauthorizedResponse({ description: 'Пользователь не авторизован' })
-  @Roles('USER', 'ADMIN')
+  @ApiOperation({ summary: 'Создание юзера' })
+  @ApiResponse({ status: 200, type: UserDto })
+  @Roles('ADMIN')
   @UseGuards(RolesGuard)
-  @Get()
-  getAll() {
-    return this.userService.getAll();
+  @Post()
+  create(@Body() dto: UserDto) {
+    return this.userService.create(dto);
   }
 
   @ApiBearerAuth()
@@ -51,15 +50,15 @@ export class UserController {
   get(@Param('id', new ParseIntPipe()) id: number) {
     return this.userService.get(id);
   }
-
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Создание юзера' })
-  @ApiResponse({ status: 200, type: UserDto })
-  @Roles('ADMIN')
+  @ApiOperation({ summary: 'Список всех юзеров' })
+  @ApiResponse({ status: 200, type: [UserDto] })
+  @ApiUnauthorizedResponse({ description: 'Пользователь не авторизован' })
+  @Roles('USER', 'ADMIN')
   @UseGuards(RolesGuard)
-  @Post()
-  create(@Body() dto: UserDto) {
-    return this.userService.create(dto);
+  @Get()
+  getAll() {
+    return this.userService.getAll();
   }
 
   @ApiBearerAuth()
@@ -83,15 +82,19 @@ export class UserController {
   }
 
   //User-Events routes:
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'USER')
+  @Get('/:userId/events')
+  @ApiOperation({ summary: 'Список ивентов' })
+  @ApiResponse({ status: 200, type: [EventDto] })
+  getEvents(@Param('id') id: number) {
+    return this.userService.getEvents(id);
+  }
 
   @ApiBearerAuth()
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'USER')
-  @Get(':userId/events')
-  getEvents(@Param('id', new ParseIntPipe()) id: number) {
-    return;
-  }
-
   @ApiOperation({ summary: 'Создание ивента' })
   @ApiResponse({ status: 200, type: EventDto })
   @Post(':userId/events')

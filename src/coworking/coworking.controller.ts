@@ -25,7 +25,10 @@ import {
 @Controller('coworkings')
 export class CoworkingController {
   constructor(private coworkingService: CoworkingService) {}
-  
+
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Список всех коворкингов' })
   @ApiResponse({ status: 200, type: [CoworkingDto] })
   @Get()
@@ -33,6 +36,9 @@ export class CoworkingController {
     return this.coworkingService.getAll();
   }
 
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Коворкинг по id' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @Get(':id')

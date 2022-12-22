@@ -15,6 +15,9 @@ export class UserService {
   async getAll() {
     return await this.prisma.user.findMany({});
   }
+  async getEvents(id: number) {
+    return await this.prisma.event.findMany({ where: { userId: id } });
+  }
 
   async get(id: number) {
     const user = await this.prisma.user.findFirst({
