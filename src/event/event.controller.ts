@@ -22,9 +22,6 @@ import { RolesGuard } from 'src/auth/role/roles.guard';
 export class EventController {
   constructor(private eventService: EventService) {}
 
-  @ApiBearerAuth()
-  @Roles('USER', 'ADMIN')
-  @UseGuards(RolesGuard)
   @ApiOperation({ summary: 'Список ивентов' })
   @ApiResponse({ status: 200, type: [EventDto] })
   @Get()
