@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/auth/role/roles.decorator';
+import { RolesGuard } from 'src/auth/role/roles.guard';
 import { EventDto } from 'src/event/dto';
 import { EventService } from 'src/event/event.service';
 import { UserDto } from './dto';
@@ -10,7 +11,7 @@ import { UserService } from './user.service';
 export class UserController {
     constructor(private userService: UserService, private eventService: EventService){}
 
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles('admin', 'user')
     @Get()
     getAll(){
@@ -50,10 +51,10 @@ export class UserController {
 
     //User-Events routes:
     @UseGuards(AuthGuard('jwt'))
-    @Roles('admin', 'user')
+    // @Roles('admin', 'user')
     @Get(':userId/events')
     getEvents(@Param('id') id: number){
-        return ;
+        return this.eventService.get(id);
     }
 
     @UseGuards(AuthGuard('jwt'))

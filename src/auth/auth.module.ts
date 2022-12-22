@@ -5,11 +5,13 @@ import { UserModule } from 'src/user/user.module';
 import { UserService } from 'src/user/user.service';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategy';
+import { HiddenGuard } from './role/guards/hidden.guard';
+import { BlockStrategy } from './strategy';
 
 @Module({
   imports: [PrismaModule, JwtModule.register({}), UserModule],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, UserService]
+  providers: [AuthService, BlockStrategy, HiddenGuard, UserService]
 })
+
 export class AuthModule {}
