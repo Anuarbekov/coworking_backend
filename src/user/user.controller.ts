@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UseGuards,
@@ -36,8 +37,8 @@ export class UserController {
   @ApiOperation({ summary: 'Get user by id' })
   @ApiResponse({ status: 200, type: UserDto })
   @Get(':id')
-  get(@Param('id') id: number) {
-    return this.userService.get(Number(id));
+  get(@Param('id', new ParseIntPipe()) id: number) {
+    return this.userService.get(id);
   }
 
   @ApiOperation({ summary: 'Создание юзера' })
@@ -64,7 +65,7 @@ export class UserController {
   @Roles('ADMIN')
   @Delete(':id')
   delete(@Param('id') id: number) {
-    return this.userService.delete(Number(id));
+    return this.userService.delete(id);
   }
 
   //User-Events routes:

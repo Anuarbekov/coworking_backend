@@ -1,5 +1,5 @@
 import { EventDto } from 'src/event/dto';
-import { Body, Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { GetEventDto } from './dto/get.event.dto';
 import { EventService } from './event.service';
 
@@ -20,7 +20,7 @@ export class EventController {
   @ApiOperation({ summary: 'Ивент по айди' })
   @ApiResponse({ status: 200, type: EventDto })
   @Get(':id')
-  get(@Param('id') id: number) {
-    return this.eventService.get(Number(id));
+  get(@Param('id', new ParseIntPipe()) id: number) {
+    return this.eventService.get(id);
   }
 }
