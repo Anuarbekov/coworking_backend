@@ -21,6 +21,6 @@ export class EventController {
   @ApiResponse({ status: 200, type: EventDto })
   @Get(':id')
   get(@Param('id') id: number) {
-    return this.eventService.get(id);
+    return this.eventService.get(Number(id));
   }
 }
