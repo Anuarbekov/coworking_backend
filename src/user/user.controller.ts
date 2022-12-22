@@ -64,7 +64,7 @@ export class UserController {
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id', new ParseIntPipe()) id: number) {
     return this.userService.delete(id);
   }
 
@@ -72,14 +72,14 @@ export class UserController {
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'USER')
   @Get(':userId/events')
-  getEvents(@Param('id') id: number) {
+  getEvents(@Param('id', new ParseIntPipe()) id: number) {
     return;
   }
 
   @ApiOperation({ summary: 'Создание ивента' })
   @ApiResponse({ status: 200, type: EventDto })
   @Post(':userId/events')
-  createEvent(@Param('id') id: number, @Body() dto: EventDto) {
+  createEvent(@Param('id', new ParseIntPipe()) id: number, @Body() dto: EventDto) {
     return this.eventService.create(id, dto);
   }
 
@@ -89,8 +89,8 @@ export class UserController {
   @Roles('ADMIN', 'USER')
   @Put(':userId/events/:eventId')
   updateEvent(
-    @Param('userId') userId: number,
-    @Param('eventId') id: number,
+    @Param('userId', new ParseIntPipe()) userId: number,
+    @Param('eventId', new ParseIntPipe()) id: number,
     @Body() dto: EventDto,
   ) {
     return this.eventService.update(userId, id, dto);
@@ -102,8 +102,8 @@ export class UserController {
   @Roles('ADMIN', 'USER')
   @Delete(':userId/events/:eventId')
   deleteEvent(
-    @Param('userId') userId: number,
-    @Param('eventId') eventId: number,
+    @Param('userId', new ParseIntPipe()) userId: number,
+    @Param('eventId', new ParseIntPipe()) eventId: number,
   ) {
     return this.eventService.delete(userId, eventId);
   }
@@ -113,7 +113,7 @@ export class UserController {
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
   @Put('/events/:eventId/:passed')
-  approveEvent(@Param('eventId') id: number, @Param('passed') passed: boolean) {
+  approveEvent(@Param('eventId', new ParseIntPipe()) id: number, @Param('passed') passed: boolean) {
     return this.eventService.approve(id, passed);
   }
 }

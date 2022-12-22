@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { RoomDto } from './dto';
 import { RoomService } from './room.service';
@@ -27,7 +28,7 @@ export class RoomController {
   @ApiOperation({ summary: 'Комната по айди' })
   @ApiResponse({ status: 200, type: RoomDto })
   @Get(':id')
-  get(@Param('id') id: number) {
+  get(@Param('id', new ParseIntPipe()) id: number) {
     return this.roomService.get(id);
   }
 
@@ -41,14 +42,14 @@ export class RoomController {
   @ApiOperation({ summary: 'Изменить комнату' })
   @ApiResponse({ status: 200, type: RoomDto })
   @Put(':id')
-  update(@Param('id') id: number, @Body() dto: RoomDto) {
+  update(@Param('id', new ParseIntPipe()) id: number, @Body() dto: RoomDto) {
     return this.roomService.update(id, dto);
   }
 
   @ApiOperation({ summary: 'Удалить комнату' })
   @ApiResponse({ status: 200, type: RoomDto })
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id', new ParseIntPipe()) id: number) {
     return this.roomService.delete(id);
   }
 

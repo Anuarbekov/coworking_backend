@@ -1,6 +1,5 @@
 import { EventDto } from 'src/event/dto';
-import { Body, Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
-import { GetEventDto } from './dto/get.event.dto';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { EventService } from './event.service';
 
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger/dist';

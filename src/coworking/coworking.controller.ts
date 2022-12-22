@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UseGuards,
@@ -29,7 +30,7 @@ export class CoworkingController {
   @ApiOperation({ summary: 'Коворкинг по id' })
   @ApiResponse({ status: 200, type: CoworkingDto })
   @Get(':id')
-  get(@Param('id') id: number) {
+  get(@Param('id', new ParseIntPipe()) id: number) {
     return this.coworkingService.get(id);
   }
 
@@ -47,7 +48,10 @@ export class CoworkingController {
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
   @Put(':id')
-  update(@Param('id') id: number, @Body() dto: CoworkingDto) {
+  update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: CoworkingDto,
+  ) {
     return this.coworkingService.update(id, dto);
   }
 
@@ -56,7 +60,7 @@ export class CoworkingController {
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id', new ParseIntPipe()) id: number) {
     return this.coworkingService.delete(id);
   }
 }
